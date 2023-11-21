@@ -1,0 +1,122 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : WD WindowsUpdate
+ major_version : 28
+ minor_version : 0
+ type : 4097
+ description : The purpose of the project is to explain how to retrieve the list of available updates.
+ subtype : 0
+project :
+ identifier : 0x0
+ internal_properties : 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
+ configurations :
+  -
+    name : WD WindowsUpdate
+    internal_properties : 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
+    configuration_id : 6609405678454790881
+    type : 1
+    generation_name : WD WindowsUpdate.exe
+    version :
+     version : VI200066P
+     internal_generation_version : 1
+     autoincrement_version : false
+    icon_filename : .\description.ico
+    language : 2
+    new_features_help :
+     name : ""
+     internal_properties : CAAAAAgAAACCGI5OlMWWac0sMCODk7yiBVaNyxiPQnJ/7FqZ+zPCwmywjS4mKk2PWwa6yrYWSLCQvWNTkdbi7O53kjk=
+ elements :
+  identifier : 0x4c4707e707d1f51c
+  elements :
+   -
+     name : Global procedures of WD WindowsUpdate
+     identifier : 0x4a1ab2b30000c1d4
+     internal_properties : CAAAAAgAAAAS6EpebdpSDSB2qqI3/q5YtNfj+0I+v2pOjzh6MugsLNBeSco/zx/vca0X4aFfG413/w==
+     physical_name : .\Global procedures of WD WindowsUpdate.wdg
+     type : 7
+   -
+     name : WIN_Wait
+     identifier : 0x4a1ac5610006babd
+     internal_properties : CAAAAAgAAAAOFGa6iTZ+sbTqzkYbxK5oUOePp6omx0N2CWUYfJ72Ktp0U8BL+0OT1UG7BY1DP7EbGw==
+     physical_name : .\WIN_Wait.wdw
+     type : 2
+   -
+     name : TEST_WIN_Main
+     identifier : 0x4c7275b90014a4a7
+     internal_properties : CAAAAAgAAAC0kpyYJxwUFz5QYOT58xjGns+VPZxGob52Ifi9y1HDfYePeJttmeU1i7chn2eZYVehoQ==
+     physical_name : .\TEST_WIN_Main.wxt
+     type : 17
+   -
+     name : WIN_Main
+     identifier : 0x4a1ab2dc0001620c
+     internal_properties : CAAAAAgAAACa8EJGZSKKlajOEiqvioaYTB9LgzpOsduKdKQWdqRwqFTazTbHR5dn+SWfGZlXI5V/hw==
+     physical_name : .\WIN_Main.wdw
+     type : 2
+   -
+     name : WIN_Detail
+     identifier : 0x4a1baacc0000f5fb
+     internal_properties : CAAAAAgAAADDvztvXAkhOpPlGTG2goO1DRhUlDMIo21Smm1FarBarkL+6zjATpBe4FxGsnJuCv7GTg==
+     physical_name : .\WIN_Detail.wdw
+     type : 2
+   -
+     name : WIN_Legend
+     identifier : 0x4a1c00cf0000ee38
+     internal_properties : CAAAAAgAAAAtL5t3QH1UKW+0Dq0vDp388OkGDvmnPp2ENjfneR+KPFv/mbZTEqyj9HcTrJdzzDco
+     physical_name : .\WIN_Legend.wdw
+     type : 2
+   -
+     name : WinDevMessageBox
+     identifier : 0x46c5864a011d6752
+     internal_properties : CAAAAAgAAABk4kxoVwwkx5LVxgK8qxSRrOP7o5L1NJJKTT8PUKb2Itp0/uk3wuiuv2dRr3dpEYdx8Q==
+     physical_name : .\WinDevMessageBox.WDW
+     type : 2
+   -
+     name : WinDevDialogBox
+     identifier : 0x46c5864d01257368
+     internal_properties : CAAAAAgAAADfuzfr2IWtvgsOc9KJyO38NXBMLJdK4G52iuefKuwuOrYqWBsf2hNbaNDKNv7yjgLKSg==
+     physical_name : .\WinDevDialogBox.WDW
+     type : 2
+  other_elements : []
+  net_assemblies : []
+  uwp_api : []
+  external_components : []
+  internal_components :
+   -
+     physical_name : .\WindowsUpdate\WindowsUpdate.wci
+ report_and_queries_enabled : false
+ common_generation_directory : true
+ languages :
+  - en-GB
+ code_elements :
+  internal_properties : CAAAAAgAAADyta1ztdEgrYxL2OIfroDzF7WpTxHA43nOPaiO8dWw0Vx+ktT0kYY/W+5/dMYhNYy+qZVHZb8274tsI4CTf3ye4wZX+srPcRKhBS20
+  type_code : 0
+  p_codes :
+   -
+     type : 196621
+   -
+     type : 196627
+     enabled : false
+  orphans :
+   -
+     name : WD WindowsUpdate
+     identifier : 0x4c4707e707daf5a8
+     code_elements :
+      type_code : 159
+      p_codes : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+rad :
+ internal_properties : CAAAAAgAAABhIL0UXeZmxDJxY3Xy0Q==
+project_explorer :
+ explorer_type : project
+ children :
+  -
+    name : Windows Store Apps API
+    explorer_type : custom_folder
+resources :
+ string_res :
+  identifier : 0x0
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAAAd98VSJfHHqE3P0QHwrwdhn7ig8dWBR6valpUTgnAMTVXiDg==

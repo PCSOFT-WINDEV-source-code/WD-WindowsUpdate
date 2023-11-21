@@ -1,0 +1,421 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : pWindowsUpdate
+ major_version : 28
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1a1abfcd00d9f139
+ internal_properties : CAAAAAgAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ code_elements :
+  internal_properties : CAAAAAgAAACPWK24dWDCSQkhFB97mrl8PVaOf9Ixjrk81WZhH+ym8LFswiEK6G3HPJ339sBnJHEuIBfTaimfb+JZzny3DgNb62xqvdJ8ZNfu2AYmEkcDR8klq5J5MotqSgpS6bhrz1XQO27s4T2spjGU833QV/+8lYSAJyMNsU2w7fBMRbUBljTYcrcgWw==
+  type_code : 31
+  p_codes :
+   -
+     internal_properties : CAAAAAgAAABRKur5+xc7vBI8Yh0RBFwQQehecUjqFZVJqLSG4VbSqvTD8atbf9AszlcjwpMAPg9NXM44vsH9wBdjB9Wzr3Ipk7qvDZ7BlQndMDBunOEG43ZcPOZHq8klU7GZtTOlaYjkgj2OsnDWTH7QeQ2s5djvdzZAZFi7ncr563gRsGVaG3VczpdD0dlvJwKlTavAnOwyqLeW7r9MQAx7BX+S4BeErQzqKtHTM9P23LWbP9vM5o69yifPJmTt7Kvrhc2QEEW2vg==
+     code : |1-
+      
+      CONSTANT
+      	WUA_OBJECT_SESSION    = “Microsoft.Update.Session”
+      	WUA_OBJECT_COLLECTION = “Microsoft.Update.UpdateColl”
+      	WUA_DEFAULT_FILTER   = “IsInstalled=0 and Type='Software'”
+      END
+      
+      // Structure representing an Update
+      stUpdate is Structure
+      	sTitle            is string // Title
+      	sType             is string // Type (1 Software or 2 Driver)
+      	bAlreadyDownloaded   is boolean // True if downloaded but not installed, False otherwise
+      	nNecessaryRAM    is int  // Minimum RAM required by the update (in Megabytes)
+      	nNecessaryDisk is int  // Necessary memory disk (in Megabytes)
+      	nNecessaryCPU    is int  // Necessary CPU speed (in Megahertz)
+      	sLevel           is string // Level of the update (Critical, Important, Moderate, Low)
+      	sDescription      is string // Detailed description
+      END
+      
+      PRIVATE
+      gaaListUpdate is ASSOCIATIVE ARRAY of objects OLE dynamic // List of updates
+      gsErrorMsg    is string                                    // Last error message
+     type : 720896
+  procedures :
+   -
+     name : UpdateList
+     internal_properties : CAAAAAgAAAD5Sypa2QcSnu+rx5ExyvCeOBs4O+IyWAizjqpzLVJm2NaR8lEoG1iAK1A2hsmLJm/Sh+1lCZjoOpvGo2JplSles+VCvqVw9WwQmzjUA/RBzTvas0jGLctpGGKYWS1sfflqy7YxlBlwO0b6EGzkbEk9DcIusEixTWvFF8DCmbhzQNfpB46oc0tPfuY8KzEUkrvJhddtvgfgBIpyalhsR1PHgGsQ8UthjS7GiycaX8nNCvHGag==
+     procedure_id : 1881026879152628391
+     type_code : 15
+     code : |1-
+      // Summary: Returns the list of available updates
+      // Syntax:
+      //[ <Result> = ] UpdateList ([<sFilter>])
+      //
+      // Parameters:
+      //	sFilter (default value="IsInstalled=0 and Type='Software'"): Search filter
+      // Return value:
+      // 	string: // Identifier + TAB + TitleUPD
+      //
+      // Example:
+      //// Automatic process of errors:   run the block of code CASE ERROR
+      //
+      // Automatic process of exceptions:   run CASE EXCEPTION:
+      //
+      
+      Procedure UpdateList(sFilter=WUA_DEFAULT_FILTER)
+      
+      // Variables
+      oUpdateSession  is object OLE dynamic = new object OLE(WUA_OBJECT_SESSION) // Entry point of the WUA API
+      oUpdateSearcher is object OLE dynamic = oUpdateSession>>CreateupdateSearcher() // Object to find the update
+      oSearchResult   is object OLE dynamic = oUpdateSearcher>>Search(sFilter) // Object that contains the search results
+      oUpdate         is object OLE dynamic = Null // Object representing an update
+      oIdentity       is object OLE dynamic = Null // Object that contains the unique identifier of an update
+      sList          is string
+      
+      // Browse the updates
+      FOR I = 0 _TO_ (oSearchResult>>Updates>>Count) - 1
+      	// Retrieve the object
+      	oUpdate = oSearchResult>>Updates>>Item(I)
+      	
+      	// Identity interface to retrieve the unique ID of the update
+      	oIdentity = oUpdate>>Identity
+      	
+      	// Add to the list
+      	gaaListUpdate[oIdentity>>UpdateID] = oUpdate
+      	sList += [CR] + oIdentity>>UpdateID + TAB + oUpdate>>Title + TAB + oUpdate>>IsDownloaded
+      END
+      
+      RESULT sList
+      
+      CASE Error:
+      gsErrorMsg = <§@1a1abfcd00d8f1390004§>+CR+<§@1a1abfcd00d8f1390005§>
+      RESULT “”
+      CASE EXCEPTION:
+      gsErrorMsg = <§@1a1abfcd00d8f1390007§>+CR+<§@1a1abfcd00d8f1390006§>
+      RESULT “”
+      END:
+      IF oUpdateSession <> Null  THEN delete oUpdateSession
+      IF oUpdateSearcher <> Null THEN delete oUpdateSearcher
+      IF oSearchResult <> Null   THEN delete oSearchResult
+     type : 458752
+   -
+     name : UpdateInstall
+     internal_properties : CAAAAAgAAACowfvPlFCbHYNoGuXIi+f5OXRmA7vbQdCSAGy+bp/Z2AT2bRrfCy+Dm8SOXNWjrju/wWEpOENOHUJyGeqqs7tJ4tnxqAolBECMeImoGAbbE6gxvzPwWvw80hPd68vnn3Uzpj9xaWMEvjqRnwLWF+sTrKdlENXh/3ylCiU2adN9cjIOhDDE5R+CRWdbJTyLXVNm3tBVAOVxkA==
+     procedure_id : 1881034051748437621
+     type_code : 15
+     code : |1-
+      // Summary: Installing an update
+      // Syntax:
+      //[ <Result> = ] UpdateInstall (<sIdentifier>)
+      //
+      // Parameters:
+      //	sIdentifier: Identifier of the update to install
+      // Return value:
+      // 	boolean: // True if no problem, False otherwise
+      //
+      // Example:
+      //
+      Procedure UpdateInstall(sIdentifier)
+      
+      // Variables
+      oUpdatesToInstall is object OLE dynamic = new object OLE(WUA_OBJECT_COLLECTION) // Collection to contain the Update objects
+      oUpdateSession  is object OLE dynamic = new object OLE(WUA_OBJECT_SESSION) // Entry point of the WUA API
+      oUpdateSearcher is object OLE dynamic = oUpdateSession>>CreateupdateSearcher() // Object to perform searches for updates
+      oSearchResult   is object OLE dynamic = oUpdateSearcher>>Search(StringBuild(“UpdateID='%1'”,sIdentifier)) // Start the search
+      oUpdate         is object OLE dynamic = Null  // Object that represents an update
+      oInstall      is object OLE dynamic = Null  // Object that contains the updates install
+      oInstallResult  is object OLE dynamic
+      
+      // Add the updates to install
+      FOR I = 0 _TO_ (oSearchResult>>Updates>>Count)-1
+      	oUpdate = oSearchResult>>Updates>>Item(I)
+      	IF oUpdate>>IsDownloaded THEN
+      		oUpdatesToInstall>>Add(oUpdate)
+      	END
+      END
+      
+      // Create an UpdateInstaller object and start the setup
+      oInstall = oUpdateSession>>CreateUpdateInstaller()
+      oInstall>>Updates = oUpdatesToInstall
+      oInstallResult = oInstall>>Install()
+      
+      RESULT True
+      
+      CASE Error:
+      gsErrorMsg = StringBuild(<§@1a1abfcd00d8f1390002§>,sIdentifier)
+      RESULT False
+      CASE EXCEPTION:
+      gsErrorMsg = StringBuild(<§@1a1abfcd00d8f1390003§>,sIdentifier)
+      RESULT False
+      END:
+      IF oUpdatesToInstall <> Null THEN delete oUpdatesToInstall
+      IF oUpdateSession <> Null THEN delete oUpdateSession
+      IF oUpdateSearcher <> Null THEN delete oUpdateSearcher
+      IF oSearchResult <> Null THEN delete oSearchResult
+     type : 458752
+   -
+     name : UpdateError
+     procedure_id : 1881034206367361875
+     type_code : 15
+     code : |1-
+      // Summary: Indicates the last error message
+      // Syntax:
+      //[ <Result> = ] UpdateError ()
+      //
+      // Parameters:
+      //	None
+      // Return value:
+      // 	string: // Error message
+      //
+      // Example:
+      // Indicate an example.
+      //
+      Procedure UpdateError()
+      
+      RESULT gsErrorMsg
+     type : 458752
+   -
+     name : UpdateDownload
+     internal_properties : CAAAAAgAAABEn/aoSTb/dputTP/ansFiTfcOU6U8y2KfKaP3MZPdlMMiNpOts0AtH3ZKqzuFDu7z20eOZzW2u37pi7vQl/JnEXCAeZrAQX+y0ycH4b7r2XlVmTpYCJ1n9ghvFbf8QIiryxfsC7NBI1QuXdj2UuLKEDQ/+x+pwPnds/mO59Dcn0yRus90z7Yn54aPBYLk0FxzzS0gvQXIRUEDJXOvwou0HFI20S8WXQ==
+     procedure_id : 1881035275814270768
+     type_code : 15
+     code : |1-
+      // Summary: Downloads an update
+      // Syntax:
+      //[ <Result> = ] UpdateDownload (<sIdentifier>)
+      //
+      // Parameters:
+      //	sIdentifier: Identifier of the update to download
+      // Return value:
+      // 	boolean: // True if no problem, False otherwise
+      //
+      // Example:
+      //
+      Procedure UpdateDownload(sIdentifier)
+      
+      // Variables
+      oUpdateSession  is object OLE dynamic = new object OLE(WUA_OBJECT_SESSION) // Entry point of the WUA API
+      oUpdatesToDownload is object OLE dynamic = new object OLE(WUA_OBJECT_COLLECTION) // Collection to contain the Update objects
+      oUpdateSearcher is object OLE dynamic = oUpdateSession>>CreateupdateSearcher() // Object to find the update
+      oSearchResult   is object OLE dynamic = oUpdateSearcher>>Search(StringBuild(“UpdateID='%1'”,sIdentifier)) // Object containing the results
+      oUpdate         is object OLE dynamic = Null // Object that represents an update
+      oDownload     is object OLE dynamic = Null // Object used to download an update
+      oIdentity       is object OLE dynamic = Null // Object that contains the unique identifier of an update
+      
+      // Add the updates to download
+      FOR I = 0 _TO_ (oSearchResult>>Updates>>Count)-1
+      	oUpdate = oSearchResult>>Updates>>Item(I)
+      	oUpdatesToDownload>>Add(oUpdate)
+      END
+      
+      // Download the updates
+      oDownload = oUpdateSession>>CreateUpdateDownloader() 
+      oDownload>>Updates = oUpdatesToDownload
+      oDownload>>Download()
+      
+      // Delete the update from the list (it is no longer used)
+      oIdentity = oUpdate>>Identity
+      IF NOT gaaListUpdate[oIdentity>>UpdateID]..Empty THEN ArrayDelete(gaaListUpdate,oIdentity>>UpdateID)
+      
+      RESULT True
+      
+      CASE Error:
+      gsErrorMsg = StringBuild(<§@1a1abfcd00d8f1390008§>,sIdentifier)
+      RESULT False
+      CASE EXCEPTION:
+      gsErrorMsg = StringBuild(<§@1a1abfcd00d8f1390009§>,sIdentifier)
+      RESULT False
+      END:
+      IF oUpdateSession <> Null THEN delete oUpdateSession
+      IF oUpdatesToDownload <> Null THEN delete oUpdatesToDownload
+      IF oUpdateSearcher <> Null THEN delete oUpdateSearcher
+      IF oSearchResult <> Null THEN delete oSearchResult
+      IF oDownload <> Null THEN delete oDownload
+     type : 458752
+   -
+     name : UpdateDetails
+     internal_properties : CAAAAAgAAAD3uwgseA69Y/dkKra0u76xpkdIa9s09L4ahVzWan2KKzA1cMObndiH1h0w5+KcUDcrS4pzpHw6nlZYcaPJml2BsnUO0PH8sL99F3IWA65tH4p5nVCpdkjwNZoan/6vvMYVJxe3cw6H70S7RMzx64xyvFiXhIs8bstHPJj0ToVwtRbJfsiTFkxPjNkEX/p5M/JCM+TCpjUmj5daQvnkqzMMILK4N1p8cuhBiZxKGPsxeD4TmSQQ
+     procedure_id : 1881280879212566281
+     type_code : 15
+     code : |1-
+      // Summary: Specific information about a particular update
+      // Syntax:
+      //[ <Result> = ] UpdateDetails (<sIdentifier>)
+      //
+      // Parameters:
+      //	sIdentifier: Identifier of the update
+      // Return value:
+      // 	Undefined type: // 	None
+      //
+      // Example:
+      //
+      Procedure UpdateDetails(sIdentifier)
+      
+      // Variable
+      pstUpdate is stUpdate dynamic = Null
+      oUpdateSession  is object OLE dynamic = Null // Entry point of the WUA API
+      oUpdateSearcher is object OLE dynamic = Null // Object to perform searches
+      oSearchResult   is object OLE dynamic = Null // Object that will contain the results of the search
+      oUpdate         is object OLE dynamic = Null // Object that represents an update
+      oIdentity       is object OLE dynamic = Null // Object that contains the unique identifier of an update
+      
+      // Before searching for it, is the update stored in memory?
+      IF NOT gaaListUpdate[sIdentifier]..Empty THEN
+      	oUpdate = gaaListUpdate[sIdentifier]
+      	pstUpdate = _UpdateStructure(oUpdate)
+      	RESULT pstUpdate	
+      END
+      
+      // Initialize the search
+      oUpdateSession = new object OLE(WUA_OBJECT_SESSION) 
+      oUpdateSearcher = oUpdateSession>>CreateupdateSearcher()
+      oSearchResult = oUpdateSearcher>>Search(StringBuild(“UpdateID='%1'”,sIdentifier))
+      
+      // Search for the update
+      IF oSearchResult>>Updates>>Count > 0 THEN
+      	oUpdate = oSearchResult>>Updates>>Item(0)
+      	
+      	// Insert the update into the list
+      	oIdentity = oUpdate>>Identity
+      	gaaListUpdate[oIdentity>>UpdateID] = oUpdate
+      	
+      	pstUpdate = _UpdateStructure(oUpdate)
+      	
+      	RESULT pstUpdate
+      ELSE
+      	gsErrorMsg = <§@1a1abfcd00d8f139000a§>
+      	RESULT Null	
+      END
+      
+      CASE Error:
+      gsErrorMsg = <§@1a1abfcd00d8f1390000§>
+      RESULT Null
+      CASE EXCEPTION:
+      gsErrorMsg = <§@1a1abfcd00d8f1390001§>
+      RESULT Null
+      END:
+      IF oUpdateSession <> Null THEN delete oUpdateSession
+      IF oUpdateSearcher <> Null THEN delete oUpdateSearcher
+      IF oSearchResult <> Null THEN delete oSearchResult
+     type : 458752
+   -
+     name : _UpdateStructure
+     internal_properties : CAAAAAgAAACulXZn6GYNPBAd9Kq83W4FOyxy+ZfVHGBaZpWEsrVi4mqQd3f460TwDCmhDFtfNOqfNi6blhMcOvq1KfcCO5izN8rNwYx6/xwe1h/joUKG6Ll2fUBZ/FDeAH1YSLonci3LEGfPyuEDptcWw+3WURsTi74tprvsHXw0ScWH6x7RkhW4QSUB
+     procedure_id : 1881383099432189740
+     type_code : 15
+     code : |1-
+      // Summary: Fills a structure containing the information about the update
+      // Syntax:
+      //[ <Result> = ] _UpdateStructure (<oUpdate> is Automation object)
+      //
+      // Parameters:
+      //	oUpdate (Automation object): OLE object representing an update
+      // Return value:
+      // 	Undefined type: // stUpdate structure
+      //
+      // Example:
+      //
+      Procedure PRIVATE _UpdateStructure(oUpdate is object OLE dynamic)
+      
+      // Variable
+      pstUpdate is stUpdate dynamic = Null
+      
+      IF oUpdate <> Null THEN
+      	pstUpdate = new stUpdate
+      	pstUpdate.bAlreadyDownloaded = oUpdate>>IsDownloaded
+      	pstUpdate.nNecessaryCPU = oUpdate>>RecommendedCPUSpeed	
+      	pstUpdate.nNecessaryDisk = oUpdate>>RecommendedHardDiskSpace		
+      	pstUpdate.nNecessaryRAM = oUpdate>>RecommendedMemory	
+      	pstUpdate.sLevel = oUpdate>>MsrcSeverity
+      	pstUpdate.sTitle = oUpdate>>Title
+      	pstUpdate.sDescription = oUpdate>>Description
+      	
+      	SWITCH oUpdate>>Type
+      		CASE 1:
+      			pstUpdate.sType = “Software”	
+      		CASE 2:
+      			pstUpdate.sType = “Driver”
+      		OTHER CASE:
+      			pstUpdate.sType = <§@1a1abfcd00d8f139000b§>
+      	END
+      	
+      	IF pstUpdate.sLevel = “” THEN pstUpdate.sLevel = <§@1a1abfcd00d8f139000c§>
+      END
+      
+      RESULT pstUpdate
+      
+      CASE Error:
+      gsErrorMsg = <§@1a1abfcd00d8f139000d§>+CR+<§@1a1abfcd00d8f1390005§>
+      RESULT Null
+      CASE EXCEPTION:
+      gsErrorMsg = <§@1a1abfcd00d8f139000d§>+CR+<§@1a1abfcd00d8f1390005§>
+      RESULT Null
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : COL_Collection1
+resources :
+ string_res :
+  identifier : 0x1a1abfcd00d8f139
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text :
+      en-GB : Unable to retrieve the information about the update
+     index : 0
+   -
+     text :
+      en-GB : Unable to retrieve the information about the update
+     index : 1
+   -
+     text :
+      en-GB : Unable to install %1 update
+     index : 2
+   -
+     text :
+      en-GB : Unable to install %1 update
+     index : 3
+   -
+     text :
+      en-GB : Unable to retrieve the list of available updates
+     index : 4
+   -
+     text :
+      en-GB : Check your Internet connection
+     index : 5
+   -
+     text :
+      en-GB : Check your Internet connection
+     index : 6
+   -
+     text :
+      en-GB : Unable to retrieve the list of available updates
+     index : 7
+   -
+     text :
+      en-GB : Unable to download %1 update
+     index : 8
+   -
+     text :
+      en-GB : Unable to download %1 update
+     index : 9
+   -
+     text :
+      en-GB : Unknown update
+     index : 10
+   -
+     text :
+      en-GB : Unknown
+     index : 11
+   -
+     text :
+      en-GB : Not specified
+     index : 12
+   -
+     text :
+      en-GB : "Unable to retrieve the information about the update "
+     index : 13
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

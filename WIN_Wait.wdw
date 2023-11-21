@@ -1,0 +1,106 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : WIN_Wait
+ major_version : 28
+ minor_version : 0
+ type : 2
+ description : ""
+ subtype : 0
+window :
+ name : WIN_Wait
+ identifier : 0x20ec45b219f3c7ba
+ internal_properties : CAAAAAgAAAB5DgUUg2cf+j0UCGnvbOceTGBZemEy426BL19xTJwyxvxCTWZXtFfAmj6qdJGWQahTXRuOkclFNVwKbV639dJBFnpocppmB/U46h2QWzJ/oH6rDDWfQ9lhSKfLVnE7FkYAbU2cIsfs+K18tmDTuJ+I8BD52OGQn+PzvxLb24I0gtgDnn5X+iMevJZ7ENWwSowELpHwsfxBkeBAB0oPBY4CaperKal8VNl3N9gPwX/OkgB0nHqvwxxV42wlkgZkCn9bXrRSK36UfGcALaW7ocpqgKuNjuneAfAhabewS5g/TlgvC06gDAuTFrkKvLPgSXAT+9vnsqbOk5u85NaG+WOcGcp9t2tyHcqu6AU8aQwBZ7iXG2E4PM6eDILQv/0s2G+DgA6VD0a5xdkuYUP2cHyTBk64fXOTqpKIZ1XvovKpbYZi3hZOdw30ojbFujIStTiLR6EwXlFenttyPg7z0W98o073aTUGulRLwUO3A5kYqQ81o84/aM9OnQuKUkafP+MVHU/OpYrWsZG5oiTifFLHdvBgSOzJBFKPe5UxK6mmdEB1niP0aHarwuH4xDhSk2FY5uAcQGT66Av3iMq0iLeqatS4xQ04tcF5CslZRdpYKNMJasqpNNkDmdLGhjN2L4kcPujVBXHsPnaUsjnCzH+rnBoivBMcSufS4riow1PoD/t5m2H+mQgSO036GUUi02s/g+fodTpLSK6E+su5detBpCEL2JJk3WXUVi9SEAeFxV3csiu6HKrsu5M=
+ properties :
+  width : 284
+  height : 66
+  widthClient : 278
+  heightClient : 60
+ controls :
+  -
+    name : STC_Information
+    identifier : 0x20ec45b219f4c7ba
+    internal_properties : CAAAAAgAAADtwsEQfnqgSESJtvR45eGnKxqCdxnIgKDrNaj9qID5dzMB2eqYBUcb3p+y6hjeRo5ITtY3vLWT4cWV97+EqaESDo0iTjFYjiQFAJ5Ve7LYe7nJB53zODu7IIsJIB3BvE2dpU90Ld24bZ1IIVA+R92rndyPqI/Uzz5vZg5IbXeE1zOgYLelpoX+nY8FxKC3NJ9Xn7c6xmr2+AP1WBYbpWRu58kg9VKWDH5S0DdVG4TqcyZOj3fJbDtNbxuv5GvtcyAlVeJMHx5r0R6OAGXkJhm/t2kNiOv8LntDF7S2Ty9Y7s9HBZrXFVJKgh2E53nPUMqB8/ED0hLCXr3W9Fh6NsJhlMq4OO1JZRN0AF9SkXOvgKCzlEeFd63dPKecNtWt0r2SaX6WglHuvRI19mVwe6NFhPYe3jHvtT+tkQ5+vYyFvaaL+Y7zJUTAzVueKAXuq7M32Cfe/QrKpGZmDuPnbo+HRv+mqTV376Q8AZ7QW+NFXXkHV3yAeBIQSjGaHw4eSNrUGZs0mcwVcu5rjoDT6YrkoY8eRdqt0yELbQWoIiYK4GE=
+    properties :
+     x : 2
+     y : 6
+     width : 274
+     height : 46
+    type : 3
+    code_elements :
+     type_code : 2
+     p_codes :
+      -
+        code : |1-
+         
+        type : 18
+ menu :
+  name : _Menu
+  identifier : 0x2a1ac538d5f31cf6
+  internal_properties : CAAAAAgAAACCv199ARoPUfG3WAPSG9eefhOOjWMQrs8CrX6cGGGJPoSHWBq4PXhStOWc1YnAZMZ5+EFR1WTDn8CTOTiyLnXPpAR5X8rsRkPZrm1yZeYDDt4kRzDPLbUf4Sh/mD3kd1D8V2drCFLmjeQhgpw7GKGwHRga+ZdjSqXGIC3LD1RracZ230hOmUJTj+ABDW4IHrw4PflmVGgp8E9KnAf/gselRrzEY90l3Cr9N00QijFYYrbrl4qF4kdim1YX6jYT4ezQhbJsU84ENZsxzq+o0JVHYQ8rxck600VhGV04/ao=
+  options : []
+ languages :
+  - en-GB
+ popup_menus : []
+ message_bar :
+  internal_properties : CAAAAAgAAAAjFWXItEk/EPvcbGR+hALkgRfdOpVtIn+yZNxHnmSRFJegE/AnD2HbGAaMfhGCqfzkryHG9FVhjtF+iQYkZ59QBQ88Okhh0vjCoVhOagox2hvIqrJnU30QK15/ZA==
+ actionbar : {}
+ code_elements :
+  type_code : 1
+  p_codes :
+   -
+     code : |1-
+      Procedure WIN_Wait(sMessage=“”)
+   -
+     code : |1-
+      
+      IF sMessage <> “” THEN
+      	STC_Information = sMessage
+      END
+     type : 34
+   -
+     type : 180
+     enabled : false
+   -
+     type : 230
+     enabled : false
+   -
+     code : |1-
+      
+     type : 40
+   -
+     code : |1+
+      
+      
+     type : 2
+   -
+     code : |1+
+      
+      
+     type : 11
+   -
+     code : |1+
+      
+      
+     type : 12
+   -
+     code : |1+
+      
+      
+     type : 17
+   -
+     code : |1+
+      
+      
+     type : 13
+ code_parameters :
+  internal_properties : CAAAAAgAAAAspXRQsX4kpYpRJzI8SMGEUfXYJhQeqig0H9mPZLI9hoPnkeFEnSQ8t7JVd8VUY9eLyST/2DyAYB+9rK7lbHVOclfSdkhgAQ9dNjlmStKMpPl9
+  original_name : Modele1
+resources :
+ string_res :
+  identifier : 0x1a1ac53200dc0269
+  internal_properties : CAAAAAgAAACyXVFaObH4lOGSEHJoZf1MD49w+XTw2LScZCP/urkWFwy+HYJdyQ3umA==
+custom_note :
+ internal_properties : CAAAAAgAAAC68/W0/adbG0nFCRhrE42B5HRnbDzVHaz86sSQyxlBk7I=
+rad :
+ internal_properties : CAAAAAgAAABoAN7PLpwJW3EiA7WVZdCA5EwrCA1rvutcDHooMWKe
